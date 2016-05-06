@@ -37,6 +37,7 @@ cache_sim_t* cache_sim_t::construct(const char* config, const char* name)
   return new cache_sim_t(sets, ways, linesz, name);
 }
 
+/* Do not modify this function */
 void cache_sim_t::init()
 {
   if(sets == 0 || (sets & (sets-1)))
@@ -74,6 +75,7 @@ cache_sim_t::~cache_sim_t()
   delete [] tags;
 }
 
+/* Do not modify this function */
 void cache_sim_t::print_stats()
 {
   if(read_accesses + write_accesses == 0)
@@ -123,9 +125,11 @@ uint64_t cache_sim_t::victimize(uint64_t addr)
 
 void cache_sim_t::access(uint64_t addr, size_t bytes, bool store)
 {
+/* Do not modify how it calculates read/write count */
   store ? write_accesses++ : read_accesses++;
   (store ? bytes_written : bytes_read) += bytes;
 
+/* Do not modify how it checks cache hit */
   uint64_t* hit_way = check_tag(addr);
   if (likely(hit_way != NULL))
   {
@@ -134,6 +138,7 @@ void cache_sim_t::access(uint64_t addr, size_t bytes, bool store)
     return;
   }
 
+/* Do not modify how it calculates read/write miss */
   store ? write_misses++ : read_misses++;
 
   uint64_t victim = victimize(addr);
